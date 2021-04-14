@@ -1,0 +1,10 @@
+# don't ever lint node_modules
+node_modules
+# don't lint build output (this prevents unnecessary linting of the transpiled js files from our ts files)
+build
+# don't lint nyc coverage output
+coverage
+jest
+
+# don't lint tests
+**/*.test.ts
