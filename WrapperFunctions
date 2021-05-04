@@ -1,0 +1,43 @@
+// AOP -> aspect oriented programming
+
+// documents that need to be signed
+
+// for every doc, we want to make sure that the docName is no longer than 10 characters
+
+function wrapWithDocNameLengthCheck(docName, func) {
+  return () => {
+    try {
+      checkForTooLongDocName(docName);
+      func(docName);
+    } catch (e) {
+      console.log('its all good');
+    }
+  };
+}
+
+const checkForTooLongDocName = docName => {
+  if (docName.length > 10) {
+    throw Error(`${docName} too long, length is ${docName.length}`); // this does not get thrown in the try/catch for the wrapper function.
+  } //instead it will throw the wrapper function's error 'it's all good'
+};
+
+const applyStampToDoc = docName => {
+  try {
+    checkForTooLongDocName(docName);
+  } catch (e) {
+    console.log('cool');
+  }
+  console.log(`Stamp applied to doc [${docName}]`);
+};
+
+const applySignatureToDoc = docName => {
+  console.log(`Signature applied to doc [${docName}]`);
+};
+
+const main = () => {
+  wrapWithDocNameLengthCheck('Ellems doc', applySignatureToDoc)();
+
+  applyStampToDoc('my super cool doc');
+};
+
+main();
